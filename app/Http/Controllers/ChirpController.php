@@ -15,6 +15,8 @@ class ChirpController extends Controller
      */
     public function index(): Response
     {
+        // $chirps = Chirp::with('user:id,name')->latest()->paginate(10); // You can change '10' to your desired items per page.
+        // return Inertia::render('Chirps/Index', ['chirps' => $chirps]);
         return Inertia::render('Chirps/Index', [
             'chirps' => Chirp::with('user:id,name')->latest()->get(),
         ]);
@@ -62,9 +64,17 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chirp $chirp)
+    public function update(Request $request, Chirp $chirp): RedirectResponse
     {
-        //
+        $this->authorize('update', $chirp);
+ 
+        $validated = $request->validate([
+            'message' => 'required|string|max:255',
+        ]);
+ 
+        $chirp->update($validated);
+ 
+        return redirect(route('chirps.index'));
     }
 
     /**
