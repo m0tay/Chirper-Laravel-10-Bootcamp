@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewChirp extends Notification
+class DeletedChirp extends Notification
 {
     use Queueable;
 
@@ -37,11 +37,10 @@ class NewChirp extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject("New Chirp from {$this->chirp->user->name}")
-                    ->greeting("New Chirp from {$this->chirp->user->name}")
-                    ->line(Str::limit($this->chirp->message, 50))
-                    ->action('Go to Chirper', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject("Deleted Chirp from {$this->chirp->user->name}")
+            ->greeting("Deleted Chirp from {$this->chirp->user->name}")
+            ->line(Str::limit($this->chirp->message, 50))
+            ->line('Thank you for using our application!');
     }
 
     /**
