@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useForm } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
  
 dayjs.extend(relativeTime);
@@ -43,9 +44,13 @@ const editing = ref(false);
                         <button class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out" @click="editing = true">
                             Edit
                         </button>
-                        <DropdownLink as="button" :href="route('chirps.destroy', chirp.id)" method="delete">
+                        <!-- Commented this based on u/pb30 suggestion to use <Link> from InertiaJS -->
+                        <!-- <DropdownLink as="button" :href="route('chirps.destroy', chirp.id)" method="delete">
                             Delete
-                        </DropdownLink>
+                        </DropdownLink> -->
+                        <Link as="button" :href="route('chirps.destroy', chirp.id)" method="delete">
+                            Delete
+                        </Link>
                     </template>
                 </Dropdown>
             </div>
