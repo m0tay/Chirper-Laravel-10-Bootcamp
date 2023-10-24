@@ -8,7 +8,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { useForm } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import axios from 'axios';
 
 dayjs.extend(relativeTime);
 
@@ -20,19 +19,6 @@ const form = useForm({
 
 
 const editing = ref(false);
-
-function deleteChirp(chirpId) {
-    axios.delete(route('chirps.destroy', chirpId))
-        .then(response => {
-            // Handle success, e.g., remove chirp from the UI
-            console.log('deleted chirp id:', chirpId)
-        })
-        .catch(error => {
-            // Handle errors, e.g., display an error message
-            console.log('error, couldn\'t delete chirp id:', chirpId)
-        });
-}
-
 </script>
  
 <template>
@@ -67,19 +53,9 @@ function deleteChirp(chirpId) {
                             @click="editing = true">
                             Edit
                         </button>
-
-                        <button
-                            class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:bg-gray-100 transition duration-150 ease-in-out"
-                            @click="deleteChirp(chirp.id)">
+                        <DropdownLink as="button" :href="route('chirps.destroy', chirp.id)" method="delete">
                             Delete
-                        </button>
-                        <!-- Commented this based on u/pb30 suggestion to use <Link> from InertiaJS -->
-                        <!-- <DropdownLink as="button" :href="route('chirps.destroy', chirp.id)" method="delete">
-                            Delete
-                        </DropdownLink> -->
-                        <!-- <Link as="button" :href="route('chirps.destroy', chirp.id)" method="delete">
-                            Delete
-                        </Link> -->
+                        </DropdownLink>
                     </template>
                 </Dropdown>
             </div>
